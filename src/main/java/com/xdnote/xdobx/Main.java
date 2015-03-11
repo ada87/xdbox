@@ -2,12 +2,16 @@ package com.xdnote.xdobx;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+
 import org.fusesource.jansi.AnsiConsole;
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import com.xdnote.xdobx.face.cmd.Command;
 import com.xdnote.xdobx.face.cmd.MainCommand;
@@ -70,9 +74,15 @@ public class Main {
 		} else {
 			if (start_mode.equals(WIN_PRETTY)) {
 				try {
-					BeautyEyeLNFHelper.launchBeautyEyeLNF();
-					UIManager.put("RootPane.setupButtonVisible", false);
-					JFrame.setDefaultLookAndFeelDecorated(true);
+					ServletContextTemplateResolver templateresolver = new ServletContextTemplateResolver();
+					templateresolver.setTemplateMode("HTML5");
+
+					TemplateEngine templateengine = new TemplateEngine();
+					templateengine.setTemplateResolver(templateresolver);
+					templateengine.addDialect(new LayoutDialect()); 
+					
+//					UIManager.put("RootPane.setupButtonVisible", false);
+//					JFrame.setDefaultLookAndFeelDecorated(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
